@@ -12,9 +12,9 @@
 //fragment minimum size
   $fs=0.2;
   
-  ArmHeigth =5;
-  ArmWidth =10;
-  ArmLength = 80; 
+  ArmHeigth =4;
+  ArmWidth =8;
+  ArmLength = 90; 
 
 	difference()
 	{  
