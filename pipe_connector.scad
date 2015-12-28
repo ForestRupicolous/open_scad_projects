@@ -1,7 +1,8 @@
 insideRadius=25.5;
 outsideRadius=27.5;
-thickness=2.1;
+thickness=2.6;
 lengthOfArm=15;
+
 
 // number of sides
 shape=30; //[3:Triangle, 4:Square, 5:Pentagon, 6:Hexagon, 8:Octogon, 30:Circle]
@@ -18,14 +19,19 @@ z1angle=0;
 
 
 rotate([x1angle,0,0])
-    translate([-outsideRadius,0,7.5])
+    translate([-outsideRadius,0,7.4])
         arm_clamp();
 
 rotate([x1angle+180,0,0])
-    translate([-outsideRadius,0,7.5])
+    translate([-outsideRadius,0,7.4])
         arm_clamp();
-    
-arm_outer();
+difference()
+{   
+    arm_outer();
+    #rotate([90,0,0])
+        translate([-outsideRadius,0,-7.4])
+        cylinder (7.4*2,outsideRadius+1.5*thickness,       outsideRadius+1.5*thickness);
+}
 
 
 
@@ -54,7 +60,7 @@ module arm_clamp()
     {
         cylinder (arm_inner_length,outsideRadius+thickness,outsideRadius+thickness);
         cylinder (arm_inner_length+1,outsideRadius,outsideRadius);
-        #
+        
         translate([-outsideRadius,0,0])
             cube([outsideRadius,2*(insideRadius+thickness),2*(insideRadius+thickness)],center=true);
     }
