@@ -1,6 +1,6 @@
-insideRadius=25;
+insideRadius=25.5;
 outsideRadius=27.5;
-thickness=3;
+thickness=2.1;
 lengthOfArm=15;
 
 // number of sides
