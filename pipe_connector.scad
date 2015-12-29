@@ -1,6 +1,6 @@
 insideRadius=25.5;
 outsideRadius=27.5;
-thickness=2.6;
+thickness=2.4;
 lengthOfArm=15;
 
 
@@ -16,11 +16,16 @@ y1angle=90;
 
 
 z1angle=0;
+arm_inner_length=20;
 
 
 rotate([x1angle,0,0])
     translate([-outsideRadius,0,7.4])
-        arm_clamp();
+        difference()
+        {
+            cylinder (arm_inner_length,outsideRadius+thickness,             outsideRadius+thickness);
+            cylinder (arm_inner_length+1,outsideRadius,             outsideRadius);
+        }
 
 rotate([x1angle+180,0,0])
     translate([-outsideRadius,0,7.4])
@@ -29,7 +34,8 @@ difference()
 {   
     arm_outer();
     #rotate([90,0,0])
-        translate([-outsideRadius,0,-7.4])
+        //translate([-outsideRadius,0,-7.4])
+        translate([-16,0,-7.4])
         cylinder (7.4*2,outsideRadius+1.5*thickness,       outsideRadius+1.5*thickness);
 }
 
@@ -61,8 +67,8 @@ module arm_clamp()
         cylinder (arm_inner_length,outsideRadius+thickness,outsideRadius+thickness);
         cylinder (arm_inner_length+1,outsideRadius,outsideRadius);
         
-        translate([-outsideRadius,0,0])
-            cube([outsideRadius,2*(insideRadius+thickness),2*(insideRadius+thickness)],center=true);
+        #translate([-outsideRadius,0,0])
+            cube([outsideRadius,(insideRadius+thickness),2*(insideRadius+thickness)],center=true);
     }
 }
 
