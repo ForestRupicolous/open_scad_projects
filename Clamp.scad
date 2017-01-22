@@ -19,12 +19,12 @@ Parameters:
 */
 
 //translate([-25, 0, 25]) 
-clamp(ring_inner_dia = 51);
+clamp(base_thickness = 20);
 //translate([25, 0, 25]) clamp(base = false);
 //translate([-25, 0, -25]) clamp(screw_count = 2);
 //translate([25, 0, -25]) clamp(height = 25);
 
-module clamp(base = true, base_thickness = 7, base_width = 20, ring_thickness = 2, ring_inner_dia = 15, jaws_thickness = 5, jaws_width = 13, break_width = 5, screw_diameter = 7, screw_count = 1, nut_recess = true, nut_diameter = 12, nut_thickness = 3, height = 15) {
+module clamp(base = true, base_thickness = 7, base_width = 50, ring_thickness = 2, ring_inner_dia = 51, jaws_thickness = 4, jaws_width = 17.5, break_width = 5, screw_diameter = 7, screw_count = 1, nut_recess = true, nut_diameter = 12, nut_thickness = 3, height = 15) {
 
 	//Check base thickness
 	if(base && base_thickness < ring_thickness)
@@ -43,8 +43,13 @@ module clamp(base = true, base_thickness = 7, base_width = 20, ring_thickness = 
 	//Base
 	if(base)
 		translate([ring_inner_rad + (base_thickness / 2), 0, 0])
-			cube([base_thickness, base_width, height], center=true);
-
+			intersection()
+                {
+                    cube([base_thickness, base_width, height],                  center=true);
+                    #rotate([0,90,0]) 
+                        translate([0,0,-base_thickness])
+                            cylinder(d1=base_width, d2=base_width                       , 2*base_thickness);
+                }
 	//Clamp
 	difference() {
 		union() {
