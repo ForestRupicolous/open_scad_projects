@@ -2,8 +2,8 @@ $fa=0.1;
 difference()
 {
     cube([20,7,9]);
-    translate([0.5,0.5,0])
-        cube([19,6,9]);
+    translate([0.5,0.5,-0.5])
+        #cube([19,6,10]);
     
 }
 translate([1,0,1])
