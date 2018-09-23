@@ -2,9 +2,9 @@ include <Chamfers-for-OpenSCAD/Chamfer.scad>;
 
 
 //variables:
-OuterRadius = 13;
-InnerRadius = 17.65/2;
-Height = 22;
+OuterRadius = 14;
+InnerRadius = 17.7/2;
+Height = 24;
 RingHeight = 1.5;
 FloorThickness = 3;
 
@@ -35,7 +35,7 @@ for (i = [0:1])
 
 module outerPart()
 {
-    chamferCylinder(height = Height+FloorThickness, radius = OuterRadius, chamferHeight =3, chamferHeight2= -2, angle = 0, quality = 0.5);
+    chamferCylinder(height = Height+FloorThickness, radius = OuterRadius, chamferHeight =3, chamferHeight2= 1, angle = 0, quality = 0.5);
     translate([0,0,Height+FloorThickness])
         cylinder(RingHeight, InnerRadius+0.4, InnerRadius+0.4);
 }
