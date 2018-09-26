@@ -10,23 +10,33 @@ include <Chamfers-for-OpenSCAD/Chamfer.scad>;
 include <openscad_libraries/text_on.scad>;
 
 
-$fn = 80;
+$fn = 10; //10 for development /80
 //variables
 OuterRadius = 8;
 InnerRadius = 8;
 BearingInnerRadius = 8/2;
+BearingInnerRing = 1;
 BearingOuterRadius = 22/2;
 BearingHeight = 7;
-SpoolHeight = 30;
+SpoolCore = 30;
 RingHeight = 1.5;
 BoarderThickness = 3;
 RopeRadius = 0.8;
 Tolerance = 0.1;
+SpoolHeight = SpoolCore+2*BoarderThickness; //total spool hight
+HolderHeight = 2*(OuterRadius+InnerRadius);
+HolderWidth = 2*(OuterRadius+InnerRadius);
+HolderThickness = 5;
+BlockLenght = SpoolHeight+2*HolderThickness+2*BearingInnerRing;
+BlockWidth = 2*(OuterRadius+InnerRadius);
+BlockThickness = 5;
 
 
 //###########
 //top level
-spool();
+translate([0,HolderThickness+BearingInnerRing,0]) rotate([-90,0,0]) //deactivate for printing
+        spool();
+spoolHolder();
 //###########
 
 //modules
@@ -49,15 +59,15 @@ module spool()
     //bearing holder
             
 
-    translate([0,0,SpoolHeight+2*BoarderThickness])    bearingInnerPart();
+    translate([0,0,SpoolHeight])    bearingInnerPart();
        
 }
 module mainRoll()
 {
     rollBoarder();
     translate([0,0,BoarderThickness])
-        chamferCylinder(height = SpoolHeight, radius = InnerRadius, chamferHeight =-OuterRadius, chamferHeight2= -OuterRadius, angle = 0, quality = 0.5);
-    translate([0,0,SpoolHeight+BoarderThickness])
+        chamferCylinder(height = SpoolCore, radius = InnerRadius, chamferHeight =-OuterRadius, chamferHeight2= -OuterRadius, angle = 0, quality = 0.5);
+    translate([0,0,SpoolCore+BoarderThickness])
         rollBoarder();
 }    
     
@@ -76,8 +86,8 @@ module rollBoarder()
 
 module bearingInnerPart()
 {
-    cylinder(BearingHeight+1, BearingInnerRadius, BearingInnerRadius);
-    cylinder(1,BearingInnerRadius+1,BearingInnerRadius+1);
+    cylinder(BearingHeight+BearingInnerRing, BearingInnerRadius, BearingInnerRadius);
+    cylinder(BearingInnerRing,BearingInnerRadius+1,BearingInnerRadius+1);
 }
 
 module bearingHole()
@@ -93,3 +103,46 @@ module ropeHole()
     translate([0,0,-InnerRadius])
         cylinder(InnerRadius,RopeRadius*2,RopeRadius*2);
 }
+
+module spoolHolder()
+{
+    //Mounting block
+    mountingBlock();
+    holderBlock();
+    translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
+        holderBlock();
+    //Bearing Hole
+    //InnerBearing
+    //Motor Hole
+}
+
+module mountingBlock()
+ {
+     /**
+  * chamferCube returns an cube with 45° chamfers on the edges of the
+  * cube. The chamfers are diectly printable on Fused deposition
+  * modelling (FDM) printers without support structures.
+  *
+  * @param  sizeX          The size of the cube along the x axis
+  * @param  sizeY          The size of the cube along the y axis
+  * @param  sizeZ          The size of the cube along the z axis
+  * @param  chamferHeight  The "height" of the chamfers as seen from
+  *                        one of the dimensional planes (The real
+  *                        width is side c in a right angled triangle)
+  * @param  chamferX       Which chamfers to render along the x axis
+  *                        in clockwise order starting from the zero
+  *                        point, as seen from "Left view" (Ctrl + 6)
+  * @param  chamferY       Which chamfers to render along the y axis
+  *                        in clockwise order starting from the zero
+  *                        point, as seen from "Front view" (Ctrl + 8)
+  * @param  chamferZ       Which chamfers to render along the z axis
+  *                        in clockwise order starting from the zero
+  *                        point, as seen from "Bottom view" (Ctrl + 5)
+  */
+     chamferCube(BlockWidth, BlockLenght, BlockThickness);
+ }
+
+ module holderBlock()
+ {
+     chamferCube(HolderWidth, HolderThickness, HolderHeight);
+ } 
