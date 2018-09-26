@@ -76,15 +76,15 @@ module rollBoarder()
 
 module bearingInnerPart()
 {
-    cylinder(BearingHeight, BearingInnerRadius-Tolerance, BearingInnerRadius);
-    cylinder(2,BearingInnerRadius+1,BearingInnerRadius+1);
+    cylinder(BearingHeight+1, BearingInnerRadius, BearingInnerRadius);
+    cylinder(1,BearingInnerRadius+1,BearingInnerRadius+1);
 }
 
 module bearingHole()
 {
     cylinder(BearingHeight+Tolerance, BearingOuterRadius+Tolerance, BearingOuterRadius+Tolerance);
     translate([0,0,BearingHeight])
-        cylinder(BearingHeight, BearingOuterRadius+Tolerance, BearingInnerRadius+Tolerance);
+        cylinder(BearingHeight/4, BearingOuterRadius+Tolerance, BearingInnerRadius+Tolerance);
 }
 
 module ropeHole()
