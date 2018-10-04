@@ -27,6 +27,7 @@ SpoolHeight = SpoolCore+2*BoarderThickness; //total spool hight
 HolderHeight = 2*(OuterRadius+InnerRadius);
 HolderWidth = 2*(OuterRadius+InnerRadius);
 HolderThickness = 5;
+HolderClipIn = 5;
 BlockLenght = SpoolHeight+2*HolderThickness+2*BearingInnerRing;
 BlockWidth = 2*(OuterRadius+InnerRadius);
 BlockThickness = 5;
@@ -34,7 +35,7 @@ BlockThickness = 5;
 
 //###########
 //top level
-translate([0,HolderThickness+BearingInnerRing,0]) rotate([-90,0,0]) //deactivate for printing
+translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderHeight-HolderClipIn]) rotate([-90,0,0]) //deactivate for printing
         spool();
 spoolHolder();
 //###########
@@ -109,8 +110,17 @@ module spoolHolder()
     //Mounting block
     mountingBlock();
     holderBlock();
+    translate([HolderWidth/2, HolderThickness, HolderHeight-HolderClipIn])
+        rotate([-90,0,0])
+            bearingInnerPart();
     translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
-        holderBlock();
+        difference()
+        {
+            holderBlock();
+            translate([HolderWidth/2, -0.01, HolderHeight-HolderClipIn])
+                rotate([-90,0,0])
+                    bearingHole();
+        }
     //Bearing Hole
     //InnerBearing
     //Motor Hole
