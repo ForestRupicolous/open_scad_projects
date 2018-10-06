@@ -73,7 +73,7 @@ r_z = 0; //rotate about the +z axis
     //(Requires e_fill=0;)
 s_el = 0.5; //element ligament size (thickness); LO elements only
 /*******Ligament-Only (LO) Supports*******/
-c_h2e = 1; //Hook to element chamfer: c_h2e, [0 (no), 1 (yes)]
+c_h2e = 0; //Hook to element chamfer: c_h2e, [0 (no), 1 (yes)]
 t_h2e = 3; //hookbase-to-element taper size; LO elements only
 /*******/
 c_cscl = 1; //element center support chamfer ligaments: c_cscl, [0 (no), 1 (yes)]
@@ -552,7 +552,7 @@ module make_hook() {
             [  ( 1 - k_h ) ,  2.5 ] ,  //15
             [  2, -2 * t_h2e ] , //16
             [  4 -  ( 1 - k_h ) , 0 ] , //17 (replaces //1 chamfer parameter: c_h2e = 1)
-            [  4 -  ( 1 - k_h ) ,  1 - ( 1 - k_h )  ] , //18 (replaces //2 chamfer parameter: c_h2e = 1)
+            [  4 -  ( 1 - k_h ) ,  1 - ( 1 - k_h ) ] , //18 (replaces //2 chamfer parameter: c_h2e = 1)
             [  2 - s_el/ ( 2 * s_h ) , -t_h2e  ] ,//19 hook-2-element ligament chamfer left-side
             [  2 + s_el/ ( 2 * s_h ) , -t_h2e  ] ];//20 hook-2-element ligament chamfer right-side 
             if ( c_h2e == 0 ) {//no hook to element ligament chamfer
