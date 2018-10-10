@@ -10,7 +10,7 @@ include <Chamfers-for-OpenSCAD/Chamfer.scad>;
 include <openscad_libraries/text_on.scad>;
 
 
-$fn = 10; //10 for development /80
+$fn = 80; //10 for development /80
 //variables
 OuterRadius = 8;
 InnerRadius = 8;
@@ -27,19 +27,19 @@ SpoolHeight = SpoolCore+2*BoarderThickness; //total spool hight
 HolderHeight = 2*(OuterRadius+InnerRadius);
 HolderWidth = 2*(OuterRadius+InnerRadius);
 HolderThickness = 5;
-HolderClipIn = 5;
+HolderClipIn = 7;
 BlockLenght = SpoolHeight+2*HolderThickness+2*BearingInnerRing;
 BlockWidth = 2*(OuterRadius+InnerRadius);
 BlockThickness = 5;
-
-
+echo(BlockLenght);
+echo(BlockWidth);
 //###########
 //top level
-translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderHeight-HolderClipIn]) rotate([-90,0,0]) //deactivate for printing
-        spool();
+//translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderHeight-HolderClipIn]) rotate([-90,0,0]) //deactivate for printing
+  //      spool();
 spoolHolder();
 //###########
-
+bearingAxis();
 //modules
 //Outer shell
 
@@ -109,10 +109,13 @@ module spoolHolder()
 {
     //Mounting block
     mountingBlock();
-    holderBlock();
-    translate([HolderWidth/2, HolderThickness, HolderHeight-HolderClipIn])
-        rotate([-90,0,0])
-            bearingInnerPart();
+    difference()
+    {
+        holderBlock();
+        translate([HolderWidth/2, 0, HolderHeight-HolderClipIn])
+            rotate([-90,0,0])
+                bearingAxis();
+    }
     translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
         difference()
         {
@@ -126,29 +129,19 @@ module spoolHolder()
     //Motor Hole
 }
 
+module bearingAxis()
+{
+    cylinder(HolderThickness-1,BearingInnerRadius+2,BearingInnerRadius+1);
+    cylinder(HolderThickness,BearingInnerRadius+1,BearingInnerRadius+1);
+    translate([0, 0, HolderThickness])
+        bearingInnerPart();
+    translate([0,0,-5])
+        cylinder(5,BearingInnerRadius+2,BearingInnerRadius+2);
+
+}
+
 module mountingBlock()
  {
-     /**
-  * chamferCube returns an cube with 45° chamfers on the edges of the
-  * cube. The chamfers are diectly printable on Fused deposition
-  * modelling (FDM) printers without support structures.
-  *
-  * @param  sizeX          The size of the cube along the x axis
-  * @param  sizeY          The size of the cube along the y axis
-  * @param  sizeZ          The size of the cube along the z axis
-  * @param  chamferHeight  The "height" of the chamfers as seen from
-  *                        one of the dimensional planes (The real
-  *                        width is side c in a right angled triangle)
-  * @param  chamferX       Which chamfers to render along the x axis
-  *                        in clockwise order starting from the zero
-  *                        point, as seen from "Left view" (Ctrl + 6)
-  * @param  chamferY       Which chamfers to render along the y axis
-  *                        in clockwise order starting from the zero
-  *                        point, as seen from "Front view" (Ctrl + 8)
-  * @param  chamferZ       Which chamfers to render along the z axis
-  *                        in clockwise order starting from the zero
-  *                        point, as seen from "Bottom view" (Ctrl + 5)
-  */
      chamferCube(BlockWidth, BlockLenght, BlockThickness);
  }
 
@@ -156,3 +149,4 @@ module mountingBlock()
  {
      chamferCube(HolderWidth, HolderThickness, HolderHeight);
  } 
+ 
