@@ -10,7 +10,7 @@ include <Chamfers-for-OpenSCAD/Chamfer.scad>;
 include <openscad_libraries/text_on.scad>;
 
 
-$fn = 10; //10 for development /80
+$fn = 80; //10 for development /80
 //variables
 OuterRadius = 16;
 InnerRadius = 8;
@@ -35,11 +35,10 @@ echo(BlockLenght);
 echo(BlockWidth);
 //###########
 //top level
-translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
-    spool();
+//translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
+//    spool();
 spoolHolder();
 //###########
-//bearingAxis();
 //modules
 //Outer shell
 
@@ -133,17 +132,6 @@ module spoolHolder()
     //Bearing Hole
     //InnerBearing
     //Motor Hole
-}
-
-module bearingAxis()
-{
-    cylinder(HolderThickness-1,BearingInnerRadius+2,BearingInnerRadius+1);
-    cylinder(HolderThickness,BearingInnerRadius+1,BearingInnerRadius+1);
-    translate([0, 0, HolderThickness])
-        bearingInnerPart();
-    translate([0,0,-5])
-        cylinder(5,BearingInnerRadius+2,BearingInnerRadius+2);
-
 }
 
 module mountingBlock()
