@@ -12,7 +12,7 @@ include <openscad_libraries/text_on.scad>;
 
 $fn = 10; //10 for development /80
 //variables
-OuterRadius = 8;
+OuterRadius = 16;
 InnerRadius = 8;
 BearingInnerRadius = 8/2;
 BearingInnerRing = 1;
@@ -56,7 +56,7 @@ module spool()
         
     }
     //bearing holders
-    rotate([180,0,0])   bearingInnerPart()      ;
+    rotate([180,0,0])   bearingInnerPart();
 
     translate([0,0,SpoolHeight])    bearingInnerPart();
        
@@ -64,8 +64,16 @@ module spool()
 module mainRoll()
 {
     rollBoarder();
+
     translate([0,0,BoarderThickness])
-        chamferCylinder(height = SpoolCore, radius = InnerRadius, chamferHeight =-OuterRadius, chamferHeight2= -OuterRadius, angle = 0, quality = 0.5);
+    {
+      //  chamferCylinder(height = SpoolCore, radius = InnerRadius, chamferHeight =-OuterRadius, chamferHeight2= -OuterRadius, angle = 0, quality = 0.5);
+        cylinder(h = SpoolCore/3, r1=OuterRadius, r2=InnerRadius);
+    translate([0,0,SpoolCore/3])
+        cylinder(h = SpoolCore/3, r1=InnerRadius, r2=InnerRadius);
+    translate([0,0,2*SpoolCore/3])
+        cylinder(h = SpoolCore/3, r1=InnerRadius, r2=OuterRadius);
+    }
     translate([0,0,SpoolCore+BoarderThickness])
         rollBoarder();
 }    
@@ -80,7 +88,7 @@ module mainHolder()
 
 module rollBoarder()
 {
-    cylinder(BoarderThickness, 2* OuterRadius, 2*OuterRadius);
+    cylinder(BoarderThickness, OuterRadius, OuterRadius);
 }
 
 module bearingInnerPart()
