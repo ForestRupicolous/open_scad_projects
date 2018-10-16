@@ -38,6 +38,7 @@ echo(BlockWidth);
 //translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
 //    spool();
 spoolHolder();
+//electricHolder();
 //###########
 //modules
 //Outer shell
@@ -143,4 +144,15 @@ module mountingBlock()
  {
      chamferCube(HolderWidth, HolderThickness, HolderHeight);
  } 
+
+ module electricHolder()
+{
+    //Mounting block
+    mountingBlock();
+    holderBlock();
+
+    translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
+        holderBlock();
+
+}
  
