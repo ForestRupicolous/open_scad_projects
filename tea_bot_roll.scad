@@ -24,10 +24,10 @@ BoarderThickness = 3;
 RopeRadius = 0.8;
 Tolerance = 0.1;
 SpoolHeight = SpoolCore+2*BoarderThickness; //total spool hight
-HolderHeight = 3*(OuterRadius+InnerRadius);
-HolderWidth = 3*(OuterRadius+InnerRadius);
+HolderHeight = 2*(OuterRadius+InnerRadius);
+HolderWidth = 2*(OuterRadius+InnerRadius);
 HolderThickness = 5;
-HolderAxis= 2*(OuterRadius+InnerRadius);
+HolderAxis= (OuterRadius+InnerRadius);
 BlockLenght = SpoolHeight+2*HolderThickness+2*BearingInnerRing;
 BlockWidth = HolderWidth;
 BlockThickness = 5;
@@ -35,9 +35,9 @@ echo(BlockLenght);
 echo(BlockWidth);
 //###########
 //top level
-//translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
+translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
     spool();
-//spoolHolder();
+spoolHolder();
 //###########
 //bearingAxis();
 //modules
