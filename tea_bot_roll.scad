@@ -10,7 +10,7 @@ include <Chamfers-for-OpenSCAD/Chamfer.scad>;
 include <openscad_libraries/text_on.scad>;
 
 
-$fn = 80; //10 for development /80
+$fn = 10; //10 for development /80
 //variables
 OuterRadius = 8;
 InnerRadius = 8;
@@ -24,22 +24,22 @@ BoarderThickness = 3;
 RopeRadius = 0.8;
 Tolerance = 0.1;
 SpoolHeight = SpoolCore+2*BoarderThickness; //total spool hight
-HolderHeight = 2*(OuterRadius+InnerRadius);
-HolderWidth = 2*(OuterRadius+InnerRadius);
+HolderHeight = 3*(OuterRadius+InnerRadius);
+HolderWidth = 3*(OuterRadius+InnerRadius);
 HolderThickness = 5;
-HolderClipIn = 7;
+HolderAxis= 2*(OuterRadius+InnerRadius);
 BlockLenght = SpoolHeight+2*HolderThickness+2*BearingInnerRing;
-BlockWidth = 2*(OuterRadius+InnerRadius);
+BlockWidth = HolderWidth;
 BlockThickness = 5;
 echo(BlockLenght);
 echo(BlockWidth);
 //###########
 //top level
-//translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderHeight-HolderClipIn]) rotate([-90,0,0]) //deactivate for printing
-  //      spool();
-spoolHolder();
+//translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
+    spool();
+//spoolHolder();
 //###########
-bearingAxis();
+//bearingAxis();
 //modules
 //Outer shell
 
@@ -50,15 +50,13 @@ module spool()
     {
         //mainpart
         mainRoll();
-        //hole
-        bearingHole();
         translate([0,0,SpoolHeight/2+BoarderThickness])
             rotate([90,0,0])
                 ropeHole();
         
     }
-    //bearing holder
-            
+    //bearing holders
+    rotate([180,0,0])   bearingInnerPart()      ;
 
     translate([0,0,SpoolHeight])    bearingInnerPart();
        
@@ -112,15 +110,15 @@ module spoolHolder()
     difference()
     {
         holderBlock();
-        translate([HolderWidth/2, 0, HolderHeight-HolderClipIn])
+        translate([HolderWidth/2, -0.01, HolderAxis])
             rotate([-90,0,0])
-                bearingAxis();
+                bearingHole();
     }
     translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
         difference()
         {
             holderBlock();
-            translate([HolderWidth/2, -0.01, HolderHeight-HolderClipIn])
+            translate([HolderWidth/2, -0.01, HolderAxis])
                 rotate([-90,0,0])
                     bearingHole();
         }
