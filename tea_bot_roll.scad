@@ -26,19 +26,21 @@ Tolerance = 0.1;
 SpoolHeight = SpoolCore+2*BoarderThickness; //total spool hight
 HolderHeight = 2*(OuterRadius+InnerRadius);
 HolderWidth = 2*(OuterRadius+InnerRadius);
-HolderThickness = 5;
+HolderThickness = BearingHeight;
 HolderAxis= (OuterRadius+InnerRadius);
 BlockLenght = SpoolHeight+2*HolderThickness+2*BearingInnerRing;
 BlockWidth = HolderWidth;
 BlockThickness = 5;
 echo(BlockLenght);
 echo(BlockWidth);
+echo(BlockThickness);
 //###########
 //top level
 //translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
-//    spool();
+   // spool();
 spoolHolder();
 //electricHolder();
+
 //###########
 //modules
 //Outer shell
@@ -137,7 +139,13 @@ module spoolHolder()
 
 module mountingBlock()
  {
-     chamferCube(BlockWidth, BlockLenght, BlockThickness);
+    difference()
+    {
+        chamferCube(BlockWidth, BlockLenght, BlockThickness, chamferX = [0, 0, 1, 1], chamferY = [0, 1, 1, 0], chamferZ = [1, 1, 1, 1] );
+        //cube([BlockWidth, BlockLenght, BlockThickness]);
+        translate([BlockWidth/4,HolderThickness/2,0])
+            cube([2*BlockWidth/4, BlockLenght-HolderThickness,BlockThickness]);
+    }
  }
 
  module holderBlock()
