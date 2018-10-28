@@ -14,8 +14,8 @@ $fn = 80; //10 for development /80
 //variables
 OuterRadius = 16;
 InnerRadius = 8;
-BearingInnerRadius = 8/2;
-BearingInnerRing = 1;
+BearingInnerRadius = 7.9/2;
+BearingInnerRing = 3;
 BearingOuterRadius = 22/2;
 BearingHeight = 7;
 SpoolCore = 30;
@@ -37,7 +37,7 @@ echo(BlockThickness);
 //###########
 //top level
 //translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
-   // spool();
+//   spool();
 spoolHolder();
 //electricHolder();
 
