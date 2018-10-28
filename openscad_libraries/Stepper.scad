@@ -10,8 +10,8 @@ module 28BYJ() {
             translate([-8.1,0,-1])cylinder(d=9.2,h=2.5);
             translate([-8.1,0,0])cylinder(d=4.9,h=9.2);
             hull() {
-                translate([0,17.5,-.8])cylinder(d=7,h=.8);
-                translate([0,-17.5,-.8])cylinder(d=7,h=.8);
+                translate([0,17.5,-8])cylinder(d=7,h=8);
+                translate([0,-17.5,-8])cylinder(d=7,h=8);
             }
         }
         translate([-13,1.45,3.2])cube([10,4,10]);
