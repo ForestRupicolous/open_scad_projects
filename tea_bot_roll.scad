@@ -6,9 +6,8 @@
 //--
 //---------------------------------------------------------------------------------------------
 //includes
-include <Chamfers-for-OpenSCAD/Chamfer.scad>;
-include <openscad_libraries/text_on.scad>;
-
+use <Chamfers-for-OpenSCAD/Chamfer.scad>;
+use <openscad_libraries/Stepper.scad>; //use doesn't executes functions in the file
 
 $fn = 80; //10 for development /80
 //variables
@@ -24,11 +23,11 @@ BoarderThickness = 3;
 RopeRadius = 0.8;
 Tolerance = 0.1;
 SpoolHeight = SpoolCore+2*BoarderThickness; //total spool hight
-HolderHeight = 2*(OuterRadius+InnerRadius);
+DefaultHolderHeight = 2*(OuterRadius+InnerRadius);
 HolderWidth = 2*(OuterRadius+InnerRadius);
-HolderThickness = BearingHeight;
+DefaultHolderThickness = BearingHeight;
 HolderAxis= (OuterRadius+InnerRadius);
-BlockLenght = SpoolHeight+2*HolderThickness+2*BearingInnerRing;
+BlockLenght = SpoolHeight+2*DefaultHolderThickness+2*BearingInnerRing;
 BlockWidth = HolderWidth;
 BlockThickness = 5;
 echo(BlockLenght);
@@ -36,8 +35,8 @@ echo(BlockWidth);
 echo(BlockThickness);
 //###########
 //top level
-//translate([HolderWidth/2,HolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
-//   spool();
+translate([HolderWidth/2,DefaultHolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
+   spool();
 spoolHolder();
 //electricHolder();
 
@@ -119,15 +118,23 @@ module spoolHolder()
     mountingBlock();
     difference()
     {
-        holderBlock();
+        translate([0,-5,0])
+            holderBlock(DefaultHolderThickness+5);
+        
         translate([HolderWidth/2, -0.01, HolderAxis])
             rotate([-90,0,0])
                 bearingHole();
+
+        translate([HolderWidth/2, -1.49, HolderAxis+8]) //8 is shift of axis to mounting points
+            rotate([90,-90,180])
+                28BYJ();
+
+            
     }
-    translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
+    translate([0,SpoolHeight+DefaultHolderThickness+2*BearingInnerRing,0])
         difference()
         {
-            holderBlock(30);
+            holderBlock(HolderHeight = 30);
             translate([HolderWidth/2, -0.01, HolderAxis])
                 rotate([-90,0,0])
                     bearingHole();
@@ -135,6 +142,7 @@ module spoolHolder()
     //Bearing Hole
     //InnerBearing
     //Motor Hole
+
 }
 
 module mountingBlock()
@@ -143,14 +151,14 @@ module mountingBlock()
     {
         chamferCube(BlockWidth, BlockLenght, BlockThickness, chamferX = [0, 0, 1, 1], chamferY = [0, 1, 1, 0], chamferZ = [1, 1, 1, 1] );
         //cube([BlockWidth, BlockLenght, BlockThickness]);
-        translate([BlockWidth/4,HolderThickness/2,0])
-            cube([2*BlockWidth/4, BlockLenght-HolderThickness,BlockThickness]);
+        translate([BlockWidth/4,DefaultHolderThickness/2,0])
+            cube([2*BlockWidth/4, BlockLenght-DefaultHolderThickness,BlockThickness]);
     }
  }
 
- module holderBlock(DefaultHolderHeight = HolderHeight)
+ module holderBlock(HolderThickness = DefaultHolderThickness, HolderHeight = DefaultHolderHeight)
  {
-     chamferCube(HolderWidth, HolderThickness, DefaultHolderHeight);
+     chamferCube(HolderWidth, HolderThickness, HolderHeight);
  } 
 
  module electricHolder()
@@ -159,7 +167,7 @@ module mountingBlock()
     mountingBlock();
     holderBlock();
 
-    translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
+    translate([0,SpoolHeight+DefaultHolderThickness+2*BearingInnerRing,0])
         holderBlock();
 
 }
