@@ -127,7 +127,7 @@ module spoolHolder()
     translate([0,SpoolHeight+HolderThickness+2*BearingInnerRing,0])
         difference()
         {
-            holderBlock();
+            holderBlock(30);
             translate([HolderWidth/2, -0.01, HolderAxis])
                 rotate([-90,0,0])
                     bearingHole();
@@ -148,9 +148,9 @@ module mountingBlock()
     }
  }
 
- module holderBlock()
+ module holderBlock(DefaultHolderHeight = HolderHeight)
  {
-     chamferCube(HolderWidth, HolderThickness, HolderHeight);
+     chamferCube(HolderWidth, HolderThickness, DefaultHolderHeight);
  } 
 
  module electricHolder()
