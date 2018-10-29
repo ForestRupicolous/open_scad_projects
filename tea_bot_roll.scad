@@ -33,17 +33,35 @@ BlockThickness = 5;
 echo(BlockLenght);
 echo(BlockWidth);
 echo(BlockThickness);
+
 //###########
 //top level
-translate([HolderWidth/2,DefaultHolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
-   spool();
-spoolHolder();
-//electricHolder();
+difference()
+{
+    SpoolAndHolder();
+    stepperHolder();
+}
 
+//electricHolder();
 //###########
+
+
 //modules
+module SpoolAndHolder()
+{
+    translate([HolderWidth/2,DefaultHolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
+        spool();
+    //spoolHolder();
+}
+
 //Outer shell
 
+module stepperHolder()
+{
+    translate([HolderWidth/2, -1.49, HolderAxis+8]) //8 is shift of axis to mounting points
+        rotate([90,-90,180])
+            28BYJ();
+}
 
 module spool()
 {
@@ -125,9 +143,7 @@ module spoolHolder()
             rotate([-90,0,0])
                 bearingHole();
 
-        translate([HolderWidth/2, -1.49, HolderAxis+8]) //8 is shift of axis to mounting points
-            rotate([90,-90,180])
-                28BYJ();
+
 
             
     }
