@@ -6,7 +6,6 @@
 //--
 //---------------------------------------------------------------------------------------------
 //includes
-use <Chamfers-for-OpenSCAD/Chamfer.scad>;
 use <openscad_libraries/Stepper.scad>; //use doesn't executes functions in the file
 
 $fn = 80; //10 for development /80
@@ -49,9 +48,9 @@ difference()
 //modules
 module SpoolAndHolder()
 {
-    translate([HolderWidth/2,DefaultHolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
-        spool();
-    //spoolHolder();
+   // translate([HolderWidth/2,DefaultHolderThickness+BearingInnerRing,HolderAxis]) rotate([-90,0,0]) //deactivate for printing
+   //     spool();
+    spoolHolder();
 }
 
 //Outer shell
