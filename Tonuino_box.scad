@@ -5,10 +5,14 @@ WALL_THICKNESS = 2.0;
 BOX_HEIGHT = 110;
 BOX_LENGHT = 110;
 BOX_WIDTH = 110;
+//Speaker measurements from https://www.visaton.de/en/products/fullrange-systems/fr-10-hm-8-ohm
 SPEAKER_DIAMETER = 100;
+SPEAKER_HEIGHT = 46;
+SPEAKER_SCREW_HOLE = 116.5/2;
 CORNER_RADIUS = 4;
 
-$fn = 50;
+
+$fn = 120;
 difference()
 {
     rounded_cube([BOX_WIDTH,BOX_LENGHT,BOX_HEIGHT], center=true, radius=CORNER_RADIUS);
@@ -19,12 +23,13 @@ difference()
     {
         button_array(BOX_WIDTH*5/16);
     }
-    translate([0,0,BOX_HEIGHT/2-WALL_THICKNESS-0.1])
+    translate([0,0,BOX_HEIGHT/2-SPEAKER_HEIGHT+0.1])
         speaker();
     rotate([90,0,0])
         translate([0,-BOX_LENGHT/6,-BOX_HEIGHT/2+WALL_THICKNESS])
             nfc_reader();
 }
+
 
 
 
@@ -35,7 +40,14 @@ module button()
 
 module speaker()
 {
-    cylinder(h=40,d=SPEAKER_DIAMETER);
+    cylinder(h=SPEAKER_HEIGHT, d2=SPEAKER_DIAMETER, d1=60);
+    for(i=[0:3])
+    {
+        rotate([0,0,45+90*i])
+        translate([SPEAKER_SCREW_HOLE,0,0])
+            cylinder(h=100, d=4.8);
+    }
+
 }
 
 module speakerbox()
