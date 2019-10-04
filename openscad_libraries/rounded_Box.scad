@@ -1,4 +1,4 @@
-module advRoundedBox(size, radius, sidesonly, center=false)
+module rounded_cube(size, center=false, radius, sidesonly)
 {
   if (center)
   {
