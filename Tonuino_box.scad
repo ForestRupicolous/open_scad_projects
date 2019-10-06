@@ -11,25 +11,51 @@ SPEAKER_HEIGHT = 46;
 SPEAKER_SCREW_HOLE = 116.5/2;
 CORNER_RADIUS = 4;
 
+PRINT_DEBUG_PROJECT = "PROJECT_BUTTONS";
 
-$fn = 120;
-difference()
+$fn = 60;
+
+
+
+//MAIN
+if(PRINT_DEBUG_PROJECT == "PROJECT_BUTTONS")
 {
-    rounded_cube([BOX_WIDTH,BOX_LENGHT,BOX_HEIGHT], center=true, radius=CORNER_RADIUS);
-    translate([0,0,-WALL_THICKNESS])
-        rounded_cube([BOX_WIDTH-2*WALL_THICKNESS,BOX_LENGHT-2*WALL_THICKNESS,BOX_HEIGHT],center=true, radius=CORNER_RADIUS-1);
-    rotate([-90,0,0])
-    translate([0,-BOX_LENGHT/4,BOX_HEIGHT/2-WALL_THICKNESS-0.1])
-    {
-        button_array(BOX_WIDTH*5/16);
-    }
-    translate([0,0,BOX_HEIGHT/2-SPEAKER_HEIGHT+0.1])
-        speaker();
-    rotate([90,0,0])
-        translate([0,-BOX_LENGHT/6,-BOX_HEIGHT/2+WALL_THICKNESS])
-            nfc_reader();
+      projection(cut = true) translate([0,0,-BOX_HEIGHT/2+1.5]) rotate([90,0,0])
+        tonuino_box();
+}
+else if(PRINT_DEBUG_PROJECT == "PROJECT_SPEAKER")
+{
+      projection()
+        tonuino_box();
+}
+else if(PRINT_DEBUG_PROJECT == "DEBUG")
+{
+    $fn = 10;
+}
+else
+{
+    $fn = 60;
 }
 
+module tonuino_box()
+{
+    difference()
+    {
+        rounded_cube([BOX_WIDTH,BOX_LENGHT,BOX_HEIGHT], center=true, radius=CORNER_RADIUS);
+        translate([0,0,-WALL_THICKNESS])
+            rounded_cube([BOX_WIDTH-2*WALL_THICKNESS,BOX_LENGHT-2*WALL_THICKNESS,BOX_HEIGHT],center=true, radius=CORNER_RADIUS-1);
+        rotate([-90,0,0])
+        translate([0,-BOX_LENGHT/4,BOX_HEIGHT/2-WALL_THICKNESS-0.1])
+        {
+            button_array(BOX_WIDTH*5/16);
+        }
+        translate([0,0,BOX_HEIGHT/2-SPEAKER_HEIGHT+0.1])
+            speaker();
+        rotate([90,0,0])
+            translate([0,-BOX_LENGHT/6,-BOX_HEIGHT/2+WALL_THICKNESS+1])
+                nfc_reader();
+    }
+}
 
 
 
@@ -66,5 +92,10 @@ module button_array(button_space=5)
 
 module nfc_reader()
 {
-    cube([62,42,WALL_THICKNESS],center=true);
+    hull()
+    {
+        cube([66,46,WALL_THICKNESS/2],center=true);
+        translate([0,0,-WALL_THICKNESS/2])
+            cube([62,42,WALL_THICKNESS/2],center=true);
+    }
 }
